@@ -1,0 +1,15 @@
+.venv
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.git
+.gitignore
+*.log
+*.mp3
+*.wav
+*.m4a
+*.mp4
+*.webm
+
+

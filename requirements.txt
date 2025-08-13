@@ -1,0 +1,9 @@
+Flask==3.0.3
+flask-cors==5.0.0
+gunicorn==23.0.0
+Jinja2==3.1.4
+openai-whisper==20231117
+# Install an appropriate torch build for your system. For CPU-only:
+torch==2.3.1
+
+

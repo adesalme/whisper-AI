@@ -1,0 +1,17 @@
+services:
+  web:
+    build: .
+    image: whisper-ai-web:latest
+    ports:
+      - "8000:8000"
+    environment:
+      - WHISPER_MODEL=large-v3
+      - WHISPER_DEVICE=cpu
+    deploy:
+      resources:
+        limits:
+          cpus: "2.00"
+          memory: 6G
+    # Pour activer le rechargement à chaud en dev, montez le code local
+    # volumes:
+    #   - ./app:/app/app
