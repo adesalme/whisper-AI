@@ -6,12 +6,17 @@ services:
       - "8000:8000"
     environment:
       - WHISPER_MODEL=large-v3
-      - WHISPER_DEVICE=cpu
+      - WHISPER_DEVICE=cuda
     deploy:
       resources:
         limits:
           cpus: "2.00"
           memory: 6G
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
     # Pour activer le rechargement à chaud en dev, montez le code local
     # volumes:
     #   - ./app:/app/app

@@ -1,6 +1,6 @@
 # syntax=docker/dockerfile:1
 
-FROM python:3.12-slim AS base
+FROM nvidia/cuda:12.1-devel-ubuntu22.04 AS base
 
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
@@ -9,16 +9,21 @@ ENV PYTHONDONTWRITEBYTECODE=1 \
 
 WORKDIR /app
 
-# Système: ffmpeg requis par Whisper
+# Système: Python, ffmpeg et dépendances CUDA
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends ffmpeg \
-    && rm -rf /var/lib/apt/lists/*
+    && apt-get install -y --no-install-recommends \
+        python3.12 \
+        python3.12-dev \
+        python3-pip \
+        ffmpeg \
+        git \
+    && rm -rf /var/lib/apt/lists/* \
+    && ln -s /usr/bin/python3.12 /usr/bin/python
 
 COPY requirements.txt /app/requirements.txt
 
-# Installer torch CPU explicitement depuis l'index CPU de PyTorch puis les deps
+# Installer PyTorch avec CUDA et les dépendances
 RUN pip install --upgrade pip \
-    && pip install --no-cache-dir --index-url https://download.pytorch.org/whl/cpu torch==2.3.1+cpu \
     && pip install --no-cache-dir -r requirements.txt
 
 # Copier le code de l'application
